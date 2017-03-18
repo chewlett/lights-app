@@ -1,0 +1,15 @@
+.light {
+    float: left;
+    width: 25%;
+    max-width: 200px;
+    padding: 1em;
+    box-sizing: border-box;
+}
+.light img {
+    width: 100%;
+}
+.light h4 {
+    text-align: center;
+    font-size: 1.3em;
+    text-transform: uppercase;
+}

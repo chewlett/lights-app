@@ -1,0 +1,28 @@
+<%- layout('layout.ejs') %>
+<script
+  src="https://code.jquery.com/jquery-3.2.0.js"
+  integrity="sha256-wPFJNIFlVY49B+CuAIrDr932XSb6Jk3J1M22M3E2ylQ="
+  crossorigin="anonymous"></script>
+<script>
+    function toggleLight(id) {
+        console.log("Toggle: " + id);
+        $.ajax({
+            url: 'http://localhost:3000/toggle/' + id
+        })
+        .done(function(msg) {
+            console.log(msg);
+        })
+        .fail(function(err) {
+            console.log(err);
+        });
+    }
+</script>
+<div>
+    <h3><%- title %></h3>    
+    <% for (let i = 0; i < data.length; i++) { %>
+        <div class="light" onClick="toggleLight('<%- data[i]._id %>')">
+            <h4><%- data[i].lightName %></h4>
+            <img src="./images/br30_on.svg" alt="hue light" width="200px" />
+        </div>
+    <% } %>
+</div>
