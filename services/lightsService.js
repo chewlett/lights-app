@@ -12,24 +12,25 @@ module.exports.toggleLight = function(light) {
 }
 
 function toggleHue(light) {
-    request({
-        // url: 'http://' + config.hueIP + '/api/' + config.hueKey + '/lights',
-        url: 'http://www.google.com',
-        method: 'GET'        
-    })
-    // .on('error', (error) => {
-    // console.log(error)
-    // })
-    .on("response", (response) => {
-        //   if (JSON.parse(response).state.on == true) {
-        //       hueOff(light);
-        //   }
-        //   else {
-        //       hueOn(light);
-        //   }
-        console.log(response);
-    })  
-
+    request('http://' + config.hueIP + '/api/' + config.hueKey + '/lights/' + light.number, 
+	(err, res, body) => {
+		if (res.statusCode == 200) {
+			console.log("toggling")
+			try {
+				let info = JSON.parse(body);
+				console.log(info.state.on)
+				if (info.state.on) {
+					hueOff(light);
+				}
+				else {
+					hueOn(light);
+				}
+			}
+			catch (e) {
+				console.log("can't parse" + e)			
+			}
+		}
+    });
 }
 
 function hueOn(light) {
@@ -37,24 +38,16 @@ function hueOn(light) {
         url: 'http://' + config.hueIP + '/api/' + config.hueKey + '/lights/'+light.number+'/state',
         method: 'PUT',
         json: {"on": true}
-    })
-    .on('error', (error) => {
-        console.log(error)
-    })
-    .on("response", (response) => {
-        console.log(response)
-    })  
+    }, (err, res, body) => {
+		console.log(body);
+	});  
 }
 function hueOff(light) {
     request({
         url: 'http://' + config.hueIP + '/api/' + config.hueKey + '/lights/'+light.number+'/state',
         method: 'PUT',
         json: {"on": false}
-    })
-    .on('error', (error) => {
-        console.log(error)
-    })
-    .on("response", (response) => {
-        console.log(response)
-    })  
+    }, (err, res, body) => {
+		console.log(body);
+	}) 
 }
