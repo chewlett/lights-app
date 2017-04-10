@@ -12,6 +12,7 @@
     "ejs-locals": "^1.0.2",
     "express": "^4.15.2",
     "mongoose": "^4.9.0",
-    "request": "^2.81.0"
+    "request": "^2.81.0",
+    "xml-js": "^1.0.2"
   }
 }

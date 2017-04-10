@@ -13,6 +13,9 @@ var LightSchema = mongoose.Schema({
     },
     number: {
         type: Number
+    },
+    state: {
+        type: Boolean
     }
 })
 
@@ -28,4 +31,10 @@ module.exports.getLightById = function(id, callback) {
 
 module.exports.getAllLights = function(callback) {
     Light.find(callback)
+}
+
+module.exports.updateLightState = function(id, state, callback) {
+    let conditions = {'_id': id};
+    let update = {$set: {'state': state}}
+    Light.update(conditions, update, null, callback)
 }

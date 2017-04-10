@@ -11,18 +11,59 @@
         })
         .done(function(msg) {
             console.log(msg);
+            updateImages();
         })
         .fail(function(err) {
             console.log(err);
         });
     }
+    function updateImages() {        
+        console.log('updating images');
+        $.ajax({
+            url: 'http://localhost:3000/lights'
+        })
+        .done(function(data) {
+            console.log(data);
+            for (let i = 0; i < data.length; i++) {
+                if (data[i].state) {
+                    $('#' + data[i]._id + " > img").attr('src', './images/br30_on.svg');
+                }
+                else {
+                    $('#' + data[i]._id + " > img").attr('src', './images/br30_off.svg');
+                }
+            }
+            console.log(Date.now());
+            // $('.lightImg').each(function(index, value) {
+            //     if (data[index].state) {
+            //         $(this).attr('src', './images/br30_on.svg');
+            //     }
+            //     else {
+            //         $(this).attr('src', './images/br30_off.svg');
+            //     }                
+            // });
+        })
+        .fail(function(err) {
+            console.log(err);
+        })
+        
+    }
+    $(function() {
+        // updateImages();
+        console.log(<%- JSON.stringify(data) %>);
+    })
 </script>
 <div>
     <h3><%- title %></h3>    
     <% for (let i = 0; i < data.length; i++) { %>
-        <div class="light" onClick="toggleLight('<%- data[i]._id %>')">
+        <div id="<%- data[i]._id %>" class="light" onClick="toggleLight('<%- data[i]._id %>')">
             <h4><%- data[i].lightName %></h4>
-            <img src="./images/br30_on.svg" alt="hue light" width="200px" />
+            <img class="lightImg" src="
+            <% if (data[i].state) { %>
+                ./images/br30_on.svg
+            <% } else { %>
+                ./images/br30_off.svg
+            <% } %>
+            " alt="hue light" width="200px" />
         </div>
     <% } %>
 </div>
